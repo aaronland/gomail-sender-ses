@@ -1,4 +1,4 @@
-module github.com/aaronland/go-mailinglist
+module github.com/aaronland/gomail-ses
 
 require (
 	github.com/aaronland/gomail v2.0.1+incompatible
