@@ -18,9 +18,9 @@ import (
 	"bufio"
 	"bytes"
 	"context"
-	"github.com/aaronland/gomail"
+	"github.com/aaronland/go-aws-session"
+	"github.com/aaronland/gomail/v2"
 	aws_ses "github.com/aws/aws-sdk-go/service/ses"
-	"github.com/whosonfirst/go-whosonfirst-aws/session"
 	"io"
 	_ "log"
 )
