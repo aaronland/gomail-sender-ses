@@ -1,11 +1,15 @@
 github.com/aaronland/go-aws-session v0.0.4 h1:GddU3E4pXAm3JWVjcdgyYhdGaWSRtiZl6Iwwt7+OLcU=
 github.com/aaronland/go-aws-session v0.0.4/go.mod h1:1OD+6F7D052nJMkz2tLx5FvMVpreAVU0ye9ur5O+nno=
+github.com/aaronland/go-roster v0.0.2 h1:2Fu7v4VQLRLRL/Zgr6R9S5JxsW75Ab/K88QtMVX532s=
+github.com/aaronland/go-roster v0.0.2/go.mod h1:AcovpxlG1XxJxX2Fjqlm63fEIBhCjEIBV4lP87FZDmI=
 github.com/aaronland/go-string v0.1.0 h1:HU6OHmEpN2m9b5SOIwU6HoOq87Fvemj/0g6DTp8yzpk=
 github.com/aaronland/go-string v0.1.0/go.mod h1:2aMIWdTqk63jZsaLLy+p9dsB1MDRqx4sHYoLtkwyYUo=
 github.com/aaronland/go-string v0.1.1 h1:btdr18owWCBN14ojKx3p+PBCKfm9qIggYEguPLUb2wE=
 github.com/aaronland/go-string v0.1.1/go.mod h1:2aMIWdTqk63jZsaLLy+p9dsB1MDRqx4sHYoLtkwyYUo=
 github.com/aaronland/gomail v2.0.1+incompatible h1:qCaawLvpmMWSbaBfLvUUcuWMXiksfZINc7WQjqjGKXo=
 github.com/aaronland/gomail v2.0.1+incompatible/go.mod h1:SDeus8DT9zwd3QCYkE+rIViYlR6narNZwKqVD/VJOPA=
+github.com/aaronland/gomail-sender v0.0.1 h1:GAvt6pEFWavw6OgRqd+NY4zT0UAII43ScyaPSr9pwlQ=
+github.com/aaronland/gomail-sender v0.0.1/go.mod h1:zyY9nzuawfMq7RHcNEnsk0U8n7a9NfHExYXPK6KyazM=
 github.com/aaronland/gomail/v2 v2.0.8 h1:pTHK0/Q7Xctz2/HcG3pa3SH8DS9kNW/f/kmvPPTJmq0=
 github.com/aaronland/gomail/v2 v2.0.8/go.mod h1:EW4vlCrGmTlJm5vu6BJbkATC8xzqicURtJjoWSX0FWM=
 github.com/aws/aws-sdk-go v1.19.31/go.mod h1:KmX6BPdI08NWTb3/sm4ZGu5ShLoqVDhKgpiN924inxo=

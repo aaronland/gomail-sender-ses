@@ -18,11 +18,14 @@ import (
 	"bufio"
 	"bytes"
 	"context"
+	"fmt"
 	"github.com/aaronland/go-aws-session"
+	"github.com/aaronland/gomail-sender"
 	"github.com/aaronland/gomail/v2"
 	aws_ses "github.com/aws/aws-sdk-go/service/ses"
 	"io"
 	_ "log"
+	"net/url"
 )
 
 type SESSender struct {
@@ -30,7 +33,29 @@ type SESSender struct {
 	service *aws_ses.SES
 }
 
-func NewSESSender(dsn string) (gomail.Sender, error) {
+func init() {
+	ctx := context.Background()
+	err := sender.RegisterSender(ctx, "ses", NewSESSender)
+
+	if err != nil {
+		panic(err)
+	}
+}
+
+func NewSESSender(ctx context.Context, uri string) (gomail.Sender, error) {
+
+	u, err := url.Parse(uri)
+
+	if err != nil {
+		return nil, err
+	}
+
+	q := u.Query()
+
+	credentials := q.Get("credentials")
+	region := q.Get("region")
+
+	dsn := fmt.Sprintf("credentials=%s region=%s", credentials, region)
 
 	sess, err := session.NewSessionWithDSN(dsn)
 
