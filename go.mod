@@ -1,4 +1,4 @@
-module github.com/aaronland/gomail-ses
+module github.com/aaronland/gomail-sender-ses
 
 go 1.16
 
