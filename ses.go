@@ -12,15 +12,16 @@ package ses
 // https://docs.aws.amazon.com/ses/latest/APIReference/API_CreateCustomVerificationEmailTemplate.html
 // https://docs.aws.amazon.com/sdk-for-go/api/service/ses/#SES.CreateCustomVerificationEmailTemplate
 
+// https://docs.aws.amazon.com/ses/latest/DeveloperGuide/request-production-access.html
 // https://us-west-2.console.aws.amazon.com/ses/home?region=us-west-2#smtp-settings:
 
 import (
 	"bufio"
 	"bytes"
 	"context"
-	"github.com/aaronland/gomail"
+	"github.com/aaronland/gomail/v2"
 	aws_ses "github.com/aws/aws-sdk-go/service/ses"
-	"github.com/whosonfirst/go-whosonfirst-aws/session"
+	"github.com/aaronland/go-aws-session"
 	"io"
 	_ "log"
 )
