@@ -11,7 +11,7 @@ github.com/aaronland/gomail-sender
 # github.com/aaronland/gomail/v2 v2.0.8
 ## explicit
 github.com/aaronland/gomail/v2
-# github.com/aws/aws-sdk-go v1.42.36
+# github.com/aws/aws-sdk-go v1.43.7
 ## explicit
 github.com/aws/aws-sdk-go/aws
 github.com/aws/aws-sdk-go/aws/awserr

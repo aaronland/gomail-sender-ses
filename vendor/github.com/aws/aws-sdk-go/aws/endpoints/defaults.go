@@ -814,6 +814,61 @@ var awsPartition = partition{
 				}: endpoint{},
 			},
 		},
+		"amplifyuibuilder": service{
+			Endpoints: serviceEndpoints{
+				endpointKey{
+					Region: "ap-northeast-1",
+				}: endpoint{},
+				endpointKey{
+					Region: "ap-northeast-2",
+				}: endpoint{},
+				endpointKey{
+					Region: "ap-south-1",
+				}: endpoint{},
+				endpointKey{
+					Region: "ap-southeast-1",
+				}: endpoint{},
+				endpointKey{
+					Region: "ap-southeast-2",
+				}: endpoint{},
+				endpointKey{
+					Region: "ca-central-1",
+				}: endpoint{},
+				endpointKey{
+					Region: "eu-central-1",
+				}: endpoint{},
+				endpointKey{
+					Region: "eu-north-1",
+				}: endpoint{},
+				endpointKey{
+					Region: "eu-west-1",
+				}: endpoint{},
+				endpointKey{
+					Region: "eu-west-2",
+				}: endpoint{},
+				endpointKey{
+					Region: "eu-west-3",
+				}: endpoint{},
+				endpointKey{
+					Region: "me-south-1",
+				}: endpoint{},
+				endpointKey{
+					Region: "sa-east-1",
+				}: endpoint{},
+				endpointKey{
+					Region: "us-east-1",
+				}: endpoint{},
+				endpointKey{
+					Region: "us-east-2",
+				}: endpoint{},
+				endpointKey{
+					Region: "us-west-1",
+				}: endpoint{},
+				endpointKey{
+					Region: "us-west-2",
+				}: endpoint{},
+			},
+		},
 		"api.detective": service{
 			Defaults: endpointDefaults{
 				defaultKey{}: endpoint{
@@ -1666,6 +1721,147 @@ var awsPartition = partition{
 						Region: "us-west-2",
 					},
 					Deprecated: boxedTrue,
+				},
+			},
+		},
+		"api.tunneling.iot": service{
+			Defaults: endpointDefaults{
+				defaultKey{}: endpoint{},
+				defaultKey{
+					Variant: fipsVariant,
+				}: endpoint{
+					Hostname: "api.tunneling.iot-fips.{region}.{dnsSuffix}",
+				},
+			},
+			Endpoints: serviceEndpoints{
+				endpointKey{
+					Region: "ap-east-1",
+				}: endpoint{},
+				endpointKey{
+					Region: "ap-northeast-1",
+				}: endpoint{},
+				endpointKey{
+					Region: "ap-northeast-2",
+				}: endpoint{},
+				endpointKey{
+					Region: "ap-south-1",
+				}: endpoint{},
+				endpointKey{
+					Region: "ap-southeast-1",
+				}: endpoint{},
+				endpointKey{
+					Region: "ap-southeast-2",
+				}: endpoint{},
+				endpointKey{
+					Region: "ca-central-1",
+				}: endpoint{},
+				endpointKey{
+					Region:  "ca-central-1",
+					Variant: fipsVariant,
+				}: endpoint{
+					Hostname: "api.tunneling.iot-fips.ca-central-1.amazonaws.com",
+				},
+				endpointKey{
+					Region: "eu-central-1",
+				}: endpoint{},
+				endpointKey{
+					Region: "eu-north-1",
+				}: endpoint{},
+				endpointKey{
+					Region: "eu-west-1",
+				}: endpoint{},
+				endpointKey{
+					Region: "eu-west-2",
+				}: endpoint{},
+				endpointKey{
+					Region: "eu-west-3",
+				}: endpoint{},
+				endpointKey{
+					Region: "fips-ca-central-1",
+				}: endpoint{
+					Hostname: "api.tunneling.iot-fips.ca-central-1.amazonaws.com",
+					CredentialScope: credentialScope{
+						Region: "ca-central-1",
+					},
+					Deprecated: boxedTrue,
+				},
+				endpointKey{
+					Region: "fips-us-east-1",
+				}: endpoint{
+					Hostname: "api.tunneling.iot-fips.us-east-1.amazonaws.com",
+					CredentialScope: credentialScope{
+						Region: "us-east-1",
+					},
+					Deprecated: boxedTrue,
+				},
+				endpointKey{
+					Region: "fips-us-east-2",
+				}: endpoint{
+					Hostname: "api.tunneling.iot-fips.us-east-2.amazonaws.com",
+					CredentialScope: credentialScope{
+						Region: "us-east-2",
+					},
+					Deprecated: boxedTrue,
+				},
+				endpointKey{
+					Region: "fips-us-west-1",
+				}: endpoint{
+					Hostname: "api.tunneling.iot-fips.us-west-1.amazonaws.com",
+					CredentialScope: credentialScope{
+						Region: "us-west-1",
+					},
+					Deprecated: boxedTrue,
+				},
+				endpointKey{
+					Region: "fips-us-west-2",
+				}: endpoint{
+					Hostname: "api.tunneling.iot-fips.us-west-2.amazonaws.com",
+					CredentialScope: credentialScope{
+						Region: "us-west-2",
+					},
+					Deprecated: boxedTrue,
+				},
+				endpointKey{
+					Region: "me-south-1",
+				}: endpoint{},
+				endpointKey{
+					Region: "sa-east-1",
+				}: endpoint{},
+				endpointKey{
+					Region: "us-east-1",
+				}: endpoint{},
+				endpointKey{
+					Region:  "us-east-1",
+					Variant: fipsVariant,
+				}: endpoint{
+					Hostname: "api.tunneling.iot-fips.us-east-1.amazonaws.com",
+				},
+				endpointKey{
+					Region: "us-east-2",
+				}: endpoint{},
+				endpointKey{
+					Region:  "us-east-2",
+					Variant: fipsVariant,
+				}: endpoint{
+					Hostname: "api.tunneling.iot-fips.us-east-2.amazonaws.com",
+				},
+				endpointKey{
+					Region: "us-west-1",
+				}: endpoint{},
+				endpointKey{
+					Region:  "us-west-1",
+					Variant: fipsVariant,
+				}: endpoint{
+					Hostname: "api.tunneling.iot-fips.us-west-1.amazonaws.com",
+				},
+				endpointKey{
+					Region: "us-west-2",
+				}: endpoint{},
+				endpointKey{
+					Region:  "us-west-2",
+					Variant: fipsVariant,
+				}: endpoint{
+					Hostname: "api.tunneling.iot-fips.us-west-2.amazonaws.com",
 				},
 			},
 		},
@@ -4889,6 +5085,9 @@ var awsPartition = partition{
 		"connect": service{
 			Endpoints: serviceEndpoints{
 				endpointKey{
+					Region: "af-south-1",
+				}: endpoint{},
+				endpointKey{
 					Region: "ap-northeast-1",
 				}: endpoint{},
 				endpointKey{
@@ -7122,6 +7321,15 @@ var awsPartition = partition{
 					Hostname: "elasticfilesystem-fips.ap-southeast-2.amazonaws.com",
 				},
 				endpointKey{
+					Region: "ap-southeast-3",
+				}: endpoint{},
+				endpointKey{
+					Region:  "ap-southeast-3",
+					Variant: fipsVariant,
+				}: endpoint{
+					Hostname: "elasticfilesystem-fips.ap-southeast-3.amazonaws.com",
+				},
+				endpointKey{
 					Region: "ca-central-1",
 				}: endpoint{},
 				endpointKey{
@@ -7253,6 +7461,15 @@ var awsPartition = partition{
 					Hostname: "elasticfilesystem-fips.ap-southeast-2.amazonaws.com",
 					CredentialScope: credentialScope{
 						Region: "ap-southeast-2",
+					},
+					Deprecated: boxedTrue,
+				},
+				endpointKey{
+					Region: "fips-ap-southeast-3",
+				}: endpoint{
+					Hostname: "elasticfilesystem-fips.ap-southeast-3.amazonaws.com",
+					CredentialScope: credentialScope{
+						Region: "ap-southeast-3",
 					},
 					Deprecated: boxedTrue,
 				},
@@ -9660,6 +9877,9 @@ var awsPartition = partition{
 					Region: "ap-southeast-2",
 				}: endpoint{},
 				endpointKey{
+					Region: "ca-central-1",
+				}: endpoint{},
+				endpointKey{
 					Region: "eu-central-1",
 				}: endpoint{},
 				endpointKey{
@@ -9792,6 +10012,9 @@ var awsPartition = partition{
 				}: endpoint{},
 				endpointKey{
 					Region: "ap-southeast-2",
+				}: endpoint{},
+				endpointKey{
+					Region: "ap-southeast-3",
 				}: endpoint{},
 				endpointKey{
 					Region: "ca-central-1",
@@ -10809,6 +11032,9 @@ var awsPartition = partition{
 		"kafka": service{
 			Endpoints: serviceEndpoints{
 				endpointKey{
+					Region: "af-south-1",
+				}: endpoint{},
+				endpointKey{
 					Region: "ap-east-1",
 				}: endpoint{},
 				endpointKey{
@@ -10816,6 +11042,9 @@ var awsPartition = partition{
 				}: endpoint{},
 				endpointKey{
 					Region: "ap-northeast-2",
+				}: endpoint{},
+				endpointKey{
+					Region: "ap-northeast-3",
 				}: endpoint{},
 				endpointKey{
 					Region: "ap-south-1",
@@ -13517,6 +13746,9 @@ var awsPartition = partition{
 		},
 		"mq": service{
 			Endpoints: serviceEndpoints{
+				endpointKey{
+					Region: "af-south-1",
+				}: endpoint{},
 				endpointKey{
 					Region: "ap-east-1",
 				}: endpoint{},
@@ -17561,6 +17793,21 @@ var awsPartition = partition{
 					Region: "ca-central-1",
 				}: endpoint{},
 				endpointKey{
+					Region:  "ca-central-1",
+					Variant: fipsVariant,
+				}: endpoint{
+					Hostname: "secretsmanager-fips.ca-central-1.amazonaws.com",
+				},
+				endpointKey{
+					Region: "ca-central-1-fips",
+				}: endpoint{
+					Hostname: "secretsmanager-fips.ca-central-1.amazonaws.com",
+					CredentialScope: credentialScope{
+						Region: "ca-central-1",
+					},
+					Deprecated: boxedTrue,
+				},
+				endpointKey{
 					Region: "eu-central-1",
 				}: endpoint{},
 				endpointKey{
@@ -20060,6 +20307,76 @@ var awsPartition = partition{
 				},
 			},
 		},
+		"synthetics": service{
+			Endpoints: serviceEndpoints{
+				endpointKey{
+					Region: "af-south-1",
+				}: endpoint{},
+				endpointKey{
+					Region: "ap-east-1",
+				}: endpoint{},
+				endpointKey{
+					Region: "ap-northeast-1",
+				}: endpoint{},
+				endpointKey{
+					Region: "ap-northeast-2",
+				}: endpoint{},
+				endpointKey{
+					Region: "ap-northeast-3",
+				}: endpoint{},
+				endpointKey{
+					Region: "ap-south-1",
+				}: endpoint{},
+				endpointKey{
+					Region: "ap-southeast-1",
+				}: endpoint{},
+				endpointKey{
+					Region: "ap-southeast-2",
+				}: endpoint{},
+				endpointKey{
+					Region: "ap-southeast-3",
+				}: endpoint{},
+				endpointKey{
+					Region: "ca-central-1",
+				}: endpoint{},
+				endpointKey{
+					Region: "eu-central-1",
+				}: endpoint{},
+				endpointKey{
+					Region: "eu-north-1",
+				}: endpoint{},
+				endpointKey{
+					Region: "eu-south-1",
+				}: endpoint{},
+				endpointKey{
+					Region: "eu-west-1",
+				}: endpoint{},
+				endpointKey{
+					Region: "eu-west-2",
+				}: endpoint{},
+				endpointKey{
+					Region: "eu-west-3",
+				}: endpoint{},
+				endpointKey{
+					Region: "me-south-1",
+				}: endpoint{},
+				endpointKey{
+					Region: "sa-east-1",
+				}: endpoint{},
+				endpointKey{
+					Region: "us-east-1",
+				}: endpoint{},
+				endpointKey{
+					Region: "us-east-2",
+				}: endpoint{},
+				endpointKey{
+					Region: "us-west-1",
+				}: endpoint{},
+				endpointKey{
+					Region: "us-west-2",
+				}: endpoint{},
+			},
+		},
 		"tagging": service{
 			Endpoints: serviceEndpoints{
 				endpointKey{
@@ -20553,6 +20870,9 @@ var awsPartition = partition{
 				}: endpoint{},
 				endpointKey{
 					Region: "ap-northeast-2",
+				}: endpoint{},
+				endpointKey{
+					Region: "ap-northeast-3",
 				}: endpoint{},
 				endpointKey{
 					Region: "ap-south-1",
@@ -21839,6 +22159,16 @@ var awscnPartition = partition{
 				}: endpoint{},
 			},
 		},
+		"api.tunneling.iot": service{
+			Endpoints: serviceEndpoints{
+				endpointKey{
+					Region: "cn-north-1",
+				}: endpoint{},
+				endpointKey{
+					Region: "cn-northwest-1",
+				}: endpoint{},
+			},
+		},
 		"apigateway": service{
 			Endpoints: serviceEndpoints{
 				endpointKey{
@@ -22048,6 +22378,16 @@ var awscnPartition = partition{
 			},
 		},
 		"codedeploy": service{
+			Endpoints: serviceEndpoints{
+				endpointKey{
+					Region: "cn-north-1",
+				}: endpoint{},
+				endpointKey{
+					Region: "cn-northwest-1",
+				}: endpoint{},
+			},
+		},
+		"codepipeline": service{
 			Endpoints: serviceEndpoints{
 				endpointKey{
 					Region: "cn-north-1",
@@ -23120,6 +23460,16 @@ var awscnPartition = partition{
 				}: endpoint{},
 			},
 		},
+		"synthetics": service{
+			Endpoints: serviceEndpoints{
+				endpointKey{
+					Region: "cn-north-1",
+				}: endpoint{},
+				endpointKey{
+					Region: "cn-northwest-1",
+				}: endpoint{},
+			},
+		},
 		"tagging": service{
 			Endpoints: serviceEndpoints{
 				endpointKey{
@@ -23327,6 +23677,14 @@ var awsusgovPartition = partition{
 			},
 		},
 		"acm": service{
+			Defaults: endpointDefaults{
+				defaultKey{}: endpoint{},
+				defaultKey{
+					Variant: fipsVariant,
+				}: endpoint{
+					Hostname: "acm.{region}.{dnsSuffix}",
+				},
+			},
 			Endpoints: serviceEndpoints{
 				endpointKey{
 					Region: "us-gov-east-1",
@@ -23614,6 +23972,54 @@ var awsusgovPartition = partition{
 						Region: "us-gov-west-1",
 					},
 					Deprecated: boxedTrue,
+				},
+			},
+		},
+		"api.tunneling.iot": service{
+			Defaults: endpointDefaults{
+				defaultKey{}: endpoint{},
+				defaultKey{
+					Variant: fipsVariant,
+				}: endpoint{
+					Hostname: "api.tunneling.iot-fips.{region}.{dnsSuffix}",
+				},
+			},
+			Endpoints: serviceEndpoints{
+				endpointKey{
+					Region: "fips-us-gov-east-1",
+				}: endpoint{
+					Hostname: "api.tunneling.iot-fips.us-gov-east-1.amazonaws.com",
+					CredentialScope: credentialScope{
+						Region: "us-gov-east-1",
+					},
+					Deprecated: boxedTrue,
+				},
+				endpointKey{
+					Region: "fips-us-gov-west-1",
+				}: endpoint{
+					Hostname: "api.tunneling.iot-fips.us-gov-west-1.amazonaws.com",
+					CredentialScope: credentialScope{
+						Region: "us-gov-west-1",
+					},
+					Deprecated: boxedTrue,
+				},
+				endpointKey{
+					Region: "us-gov-east-1",
+				}: endpoint{},
+				endpointKey{
+					Region:  "us-gov-east-1",
+					Variant: fipsVariant,
+				}: endpoint{
+					Hostname: "api.tunneling.iot-fips.us-gov-east-1.amazonaws.com",
+				},
+				endpointKey{
+					Region: "us-gov-west-1",
+				}: endpoint{},
+				endpointKey{
+					Region:  "us-gov-west-1",
+					Variant: fipsVariant,
+				}: endpoint{
+					Hostname: "api.tunneling.iot-fips.us-gov-west-1.amazonaws.com",
 				},
 			},
 		},
@@ -24553,6 +24959,14 @@ var awsusgovPartition = partition{
 			},
 		},
 		"ec2": service{
+			Defaults: endpointDefaults{
+				defaultKey{}: endpoint{},
+				defaultKey{
+					Variant: fipsVariant,
+				}: endpoint{
+					Hostname: "ec2.{region}.{dnsSuffix}",
+				},
+			},
 			Endpoints: serviceEndpoints{
 				endpointKey{
 					Region: "us-gov-east-1",
@@ -27514,6 +27928,16 @@ var awsusgovPartition = partition{
 				},
 			},
 		},
+		"synthetics": service{
+			Endpoints: serviceEndpoints{
+				endpointKey{
+					Region: "us-gov-east-1",
+				}: endpoint{},
+				endpointKey{
+					Region: "us-gov-west-1",
+				}: endpoint{},
+			},
+		},
 		"tagging": service{
 			Endpoints: serviceEndpoints{
 				endpointKey{
@@ -28498,6 +28922,13 @@ var awsisoPartition = partition{
 				}: endpoint{},
 			},
 		},
+		"synthetics": service{
+			Endpoints: serviceEndpoints{
+				endpointKey{
+					Region: "us-iso-east-1",
+				}: endpoint{},
+			},
+		},
 		"transcribe": service{
 			Defaults: endpointDefaults{
 				defaultKey{}: endpoint{
@@ -29002,6 +29433,13 @@ var awsisobPartition = partition{
 			},
 		},
 		"swf": service{
+			Endpoints: serviceEndpoints{
+				endpointKey{
+					Region: "us-isob-east-1",
+				}: endpoint{},
+			},
+		},
+		"synthetics": service{
 			Endpoints: serviceEndpoints{
 				endpointKey{
 					Region: "us-isob-east-1",
