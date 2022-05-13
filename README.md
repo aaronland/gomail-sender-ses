@@ -1,6 +1,10 @@
-# gomail-ses
+# gomail-sender-ses
 
 Go package to implement the `gomail.Sender` interface using the AWS Simple Email Service (SES).
+
+## Documentation
+
+[![Go Reference](https://pkg.go.dev/badge/github.com/aaronland/gomail-sender-ses.svg)](https://pkg.go.dev/github.com/aaronland/gomail-sender-ses)
 
 ## Example
 

@@ -5,23 +5,23 @@ import (
 )
 
 import (
+	"context"
+	"flag"
 	"github.com/aaronland/gomail-sender"
 	"github.com/aaronland/gomail/v2"
-	"flag"
 	"log"
-	"context"
 )
 
 func main() {
 
 	sender_uri := flag.String("sender-uri", "", "A valid aaronland/gomail-sender URI")
-	
+
 	from := flag.String("from", "", "A valid From: address (that has been registered with SES)")
 	to := flag.String("to", "", "A valid To: address")
-	subject := flag.String("subject", "", "A valid email subject")		
-	
+	subject := flag.String("subject", "", "A valid email subject")
+
 	flag.Parse()
-	
+
 	ctx := context.Background()
 
 	mail_sender, err := sender.NewSender(ctx, *sender_uri)
@@ -43,5 +43,5 @@ func main() {
 	if err != nil {
 		log.Fatalf("Failed to send message, %v", err)
 	}
-	
+
 }

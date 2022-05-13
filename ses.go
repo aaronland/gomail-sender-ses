@@ -29,6 +29,7 @@ import (
 	"net/url"
 )
 
+// SESSender implements the `gomail.Sender` inferface for delivery messages using the AWS Simple Email Service (SES).
 type SESSender struct {
 	gomail.Sender
 	service *aws_ses.SES
@@ -43,12 +44,18 @@ func init() {
 	}
 }
 
+// NewSESSender returns a new `SESSender` instance for delivering messages using the AWS Simple Email Service (SES),
+// configured by 'uri' which is expected to take the form of:
+//
+//	ses://?credentials={CREDENTIALS}&region={REGION}
+//
+// Where: {CREDENTIALS} is a valid `aaronland/go-aws-session` credentials string; {REGION} is a valid AWS region.
 func NewSESSender(ctx context.Context, uri string) (gomail.Sender, error) {
 
 	u, err := url.Parse(uri)
 
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("Failed to parse URL, %w", err)
 	}
 
 	q := u.Query()
@@ -61,7 +68,7 @@ func NewSESSender(ctx context.Context, uri string) (gomail.Sender, error) {
 	sess, err := session.NewSessionWithDSN(dsn)
 
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("Failed to create new session, %w", err)
 	}
 
 	svc := aws_ses.New(sess)
@@ -75,6 +82,7 @@ func NewSESSender(ctx context.Context, uri string) (gomail.Sender, error) {
 	return &s, nil
 }
 
+// Send will deliver 'msg' to each recipient listed in 'to' using the AWS Simple Email Service (SES).
 func (s *SESSender) Send(from string, to []string, msg io.WriterTo) error {
 
 	var buf bytes.Buffer
@@ -83,7 +91,7 @@ func (s *SESSender) Send(from string, to []string, msg io.WriterTo) error {
 	_, err := msg.WriteTo(wr)
 
 	if err != nil {
-		return err
+		return fmt.Errorf("Failed to write message to buffer, %w", err)
 	}
 
 	wr.Flush()
@@ -102,13 +110,14 @@ func (s *SESSender) Send(from string, to []string, msg io.WriterTo) error {
 		// maybe check err here and sometimes continue ?
 
 		if err != nil {
-			return err
+			return fmt.Errorf("Failed to send message, %w", err)
 		}
 	}
 
 	return nil
 }
 
+// Send will deliver 'msg' to 'recipient' using the AWS Simple Email Service (SES).
 func (s *SESSender) sendMessage(ctx context.Context, sender string, recipient string, msg *aws_ses.RawMessage) error {
 
 	// throttle send here... (see quota stuff above)
@@ -127,7 +136,7 @@ func (s *SESSender) sendMessage(ctx context.Context, sender string, recipient st
 	_, err := s.service.SendRawEmailWithContext(ctx, req)
 
 	if err != nil {
-		return err
+		return fmt.Errorf("Failed to send message with SES, %w", err)
 	}
 
 	return nil
