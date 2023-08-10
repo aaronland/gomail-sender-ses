@@ -2,10 +2,10 @@ package sender
 
 import (
 	"context"
-	"github.com/aaronland/gomail/v2"
 	"io"
-	_ "log"
 	"os"
+
+	"github.com/aaronland/gomail/v2"
 )
 
 func init() {

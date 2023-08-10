@@ -20,13 +20,14 @@ import (
 	"bytes"
 	"context"
 	"fmt"
+	"io"
+	"net/url"
+	"sync"
+
 	"github.com/aaronland/go-aws-session"
 	"github.com/aaronland/gomail-sender"
 	"github.com/aaronland/gomail/v2"
 	aws_ses "github.com/aws/aws-sdk-go/service/ses"
-	"io"
-	_ "log"
-	"net/url"
 )
 
 // SESSender implements the `gomail.Sender` inferface for delivery messages using the AWS Simple Email Service (SES).
@@ -35,13 +36,51 @@ type SESSender struct {
 	service *aws_ses.SES
 }
 
+// In principle this could also be done with a sync.OnceFunc call but that will
+// require that everyone uses Go 1.21 (whose package import changes broke everything)
+// which is literally days old as I write this. So maybe a few releases after 1.21
+
+var register_mu = new(sync.RWMutex)
+var register_map = map[string]bool{}
+
 func init() {
+	
 	ctx := context.Background()
-	err := sender.RegisterSender(ctx, "ses", NewSESSender)
+	err := RegiterSchemes(ctx)
 
 	if err != nil {
 		panic(err)
 	}
+}
+
+// RegisterSchemes will explicitly register all the schemes associated with the `SESSender`.
+func RegisterSchemes(ctx context.Context) error {
+
+	roster := map[string]sender.SenderInitializeFunc{
+		"ses": NewSESSender,
+	}
+	
+	register_mu.Lock()
+	defer register_mu.Unlock()
+
+	for scheme, fn := range roster {
+
+		_, exists := register_map[scheme]
+
+		if exists {
+			continue
+		}
+
+		err := sender.RegisterSender(ctx, scheme, fn)
+
+		if err != nil {
+			return fmt.Errorf("Failed to register sender for '%s', %w", scheme, err)
+		}
+		
+		register_map[scheme] = true
+	}
+
+	return nil
 }
 
 // NewSESSender returns a new `SESSender` instance for delivering messages using the AWS Simple Email Service (SES),

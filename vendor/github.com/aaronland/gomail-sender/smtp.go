@@ -3,9 +3,10 @@ package sender
 import (
 	"context"
 	"fmt"
-	"github.com/aaronland/gomail/v2"
 	"net/url"
 	"strconv"
+
+	"github.com/aaronland/gomail/v2"
 )
 
 func init() {

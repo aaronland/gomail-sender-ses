@@ -7,9 +7,10 @@ import (
 import (
 	"context"
 	"flag"
+	"log"
+
 	"github.com/aaronland/gomail-sender"
 	"github.com/aaronland/gomail/v2"
-	"log"
 )
 
 func main() {
