@@ -44,9 +44,9 @@ var register_mu = new(sync.RWMutex)
 var register_map = map[string]bool{}
 
 func init() {
-	
+
 	ctx := context.Background()
-	err := RegiterSchemes(ctx)
+	err := RegisterSchemes(ctx)
 
 	if err != nil {
 		panic(err)
@@ -59,7 +59,7 @@ func RegisterSchemes(ctx context.Context) error {
 	roster := map[string]sender.SenderInitializeFunc{
 		"ses": NewSESSender,
 	}
-	
+
 	register_mu.Lock()
 	defer register_mu.Unlock()
 
@@ -76,7 +76,7 @@ func RegisterSchemes(ctx context.Context) error {
 		if err != nil {
 			return fmt.Errorf("Failed to register sender for '%s', %w", scheme, err)
 		}
-		
+
 		register_map[scheme] = true
 	}
 
