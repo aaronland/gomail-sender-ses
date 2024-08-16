@@ -28,6 +28,7 @@ import (
 	"github.com/aaronland/gomail-sender"
 	"github.com/aaronland/gomail/v2"
 	aws_ses "github.com/aws/aws-sdk-go-v2/service/ses"
+	aws_ses_types "github.com/aws/aws-sdk-go-v2/service/ses/types"
 )
 
 // SESSender implements the `gomail.Sender` inferface for delivery messages using the AWS Simple Email Service (SES).
@@ -135,7 +136,7 @@ func (s *SESSender) Send(from string, to []string, msg io.WriterTo) error {
 
 	wr.Flush()
 
-	raw_msg := &aws_ses.RawMessage{
+	raw_msg := &aws_ses_types.RawMessage{
 		Data: buf.Bytes(),
 	}
 
@@ -157,7 +158,7 @@ func (s *SESSender) Send(from string, to []string, msg io.WriterTo) error {
 }
 
 // Send will deliver 'msg' to 'recipient' using the AWS Simple Email Service (SES).
-func (s *SESSender) sendMessage(ctx context.Context, sender string, recipient string, msg *aws_ses.RawMessage) error {
+func (s *SESSender) sendMessage(ctx context.Context, sender string, recipient string, msg *aws_ses_types.RawMessage) error {
 
 	// throttle send here... (see quota stuff above)
 
@@ -172,7 +173,7 @@ func (s *SESSender) sendMessage(ctx context.Context, sender string, recipient st
 		RawMessage: msg,
 	}
 
-	_, err := s.client.SendRawEmailWithContext(ctx, req)
+	_, err := s.client.SendRawEmail(ctx, req)
 
 	if err != nil {
 		return fmt.Errorf("Failed to send message with SES, %w", err)
