@@ -24,16 +24,17 @@ import (
 	"net/url"
 	"sync"
 
-	"github.com/aaronland/go-aws-session"
+	"github.com/aaronland/go-aws-auth"
 	"github.com/aaronland/gomail-sender"
 	"github.com/aaronland/gomail/v2"
-	aws_ses "github.com/aws/aws-sdk-go/service/ses"
+	aws_ses "github.com/aws/aws-sdk-go-v2/service/ses"
+	aws_ses_types "github.com/aws/aws-sdk-go-v2/service/ses/types"
 )
 
 // SESSender implements the `gomail.Sender` inferface for delivery messages using the AWS Simple Email Service (SES).
 type SESSender struct {
 	gomail.Sender
-	service *aws_ses.SES
+	client *aws_ses.Client
 }
 
 // In principle this could also be done with a sync.OnceFunc call but that will
@@ -102,18 +103,18 @@ func NewSESSender(ctx context.Context, uri string) (gomail.Sender, error) {
 	credentials := q.Get("credentials")
 	region := q.Get("region")
 
-	dsn := fmt.Sprintf("credentials=%s region=%s", credentials, region)
+	cfg_uri := fmt.Sprintf("aws://%s?credentials=%s", region, credentials)
 
-	sess, err := session.NewSessionWithDSN(dsn)
+	cfg, err := auth.NewConfig(ctx, cfg_uri)
 
 	if err != nil {
-		return nil, fmt.Errorf("Failed to create new session, %w", err)
+		return nil, fmt.Errorf("Failed to create new AWS config, %w", err)
 	}
 
-	svc := aws_ses.New(sess)
+	cl := aws_ses.NewFromConfig(cfg)
 
 	s := SESSender{
-		service: svc,
+		client: cl,
 	}
 
 	// https://docs.aws.amazon.com/sdk-for-go/api/service/ses/#GetSendQuotaOutput
@@ -135,7 +136,7 @@ func (s *SESSender) Send(from string, to []string, msg io.WriterTo) error {
 
 	wr.Flush()
 
-	raw_msg := &aws_ses.RawMessage{
+	raw_msg := &aws_ses_types.RawMessage{
 		Data: buf.Bytes(),
 	}
 
@@ -157,7 +158,7 @@ func (s *SESSender) Send(from string, to []string, msg io.WriterTo) error {
 }
 
 // Send will deliver 'msg' to 'recipient' using the AWS Simple Email Service (SES).
-func (s *SESSender) sendMessage(ctx context.Context, sender string, recipient string, msg *aws_ses.RawMessage) error {
+func (s *SESSender) sendMessage(ctx context.Context, sender string, recipient string, msg *aws_ses_types.RawMessage) error {
 
 	// throttle send here... (see quota stuff above)
 
@@ -172,7 +173,7 @@ func (s *SESSender) sendMessage(ctx context.Context, sender string, recipient st
 		RawMessage: msg,
 	}
 
-	_, err := s.service.SendRawEmailWithContext(ctx, req)
+	_, err := s.client.SendRawEmail(ctx, req)
 
 	if err != nil {
 		return fmt.Errorf("Failed to send message with SES, %w", err)

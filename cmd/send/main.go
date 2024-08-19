@@ -1,13 +1,11 @@
 package main
 
 import (
-	_ "github.com/aaronland/gomail-sender-ses"
-)
-
-import (
 	"context"
 	"flag"
 	"log"
+
+	_ "github.com/aaronland/gomail-sender-ses"
 
 	"github.com/aaronland/gomail-sender"
 	"github.com/aaronland/gomail/v2"
