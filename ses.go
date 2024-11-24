@@ -13,6 +13,7 @@ import (
 	"github.com/aaronland/go-aws-auth"
 	"github.com/aaronland/gomail-sender"
 	"github.com/aaronland/gomail/v2"
+	"github.com/aws/aws-sdk-go-v2/aws"
 	aws_ses "github.com/aws/aws-sdk-go-v2/service/sesv2"
 	aws_ses_types "github.com/aws/aws-sdk-go-v2/service/sesv2/types"
 )
@@ -55,12 +56,12 @@ func NewSESSender(ctx context.Context, uri string) (gomail.Sender, error) {
 		client: cl,
 	}
 
-	// https://docs.aws.amazon.com/sdk-for-go/api/service/ses/#GetSendQuotaOutput
-
 	return &s, nil
 }
 
 func (s *SESSender) Send(from string, to []string, msg io.WriterTo) error {
+
+	ctx := context.Background()
 
 	var buf bytes.Buffer
 	wr := bufio.NewWriter(&buf)
@@ -73,52 +74,30 @@ func (s *SESSender) Send(from string, to []string, msg io.WriterTo) error {
 
 	wr.Flush()
 
-	raw_msg := &aws_ses_types.RawMessage{
-		Data: buf.Bytes(),
-	}
-
-	ctx, cancel := context.WithCancel(context.Background())
-	defer cancel()
-
-	for _, recipient := range to {
-
-		err := s.sendMessage(ctx, from, recipient, raw_msg)
-
-		// maybe check err here and sometimes continue ?
-
-		if err != nil {
-			return err
-		}
-	}
-
-	return nil
-}
-
-func (s *SESSender) sendMessage(ctx context.Context, sender string, recipient string, msg *aws_ses_types.RawMessage) error {
-
-	// throttle send here... (see quota stuff above)
-
-	select {
-	case <-ctx.Done():
-		return nil
-	default:
-		// pass
-	}
-
 	// https://pkg.go.dev/github.com/aws/aws-sdk-go-v2/service/sesv2#Client.SendEmail
 	// https://pkg.go.dev/github.com/aws/aws-sdk-go-v2/service/sesv2#SendEmailInput
 	// https://pkg.go.dev/github.com/aws/aws-sdk-go-v2/service/sesv2@v1.38.3/types#EmailContent
 	// https://pkg.go.dev/github.com/aws/aws-sdk-go-v2/service/sesv2@v1.38.3/types#RawMessage
 
+	raw_msg := &aws_ses_types.RawMessage{
+		Data: buf.Bytes(),
+	}
+
 	content := &aws_ses_types.EmailContent{
-		Raw: msg,
+		Raw: raw_msg,
+	}
+
+	dest := &aws_ses_types.Destination{
+		ToAddresses: to,
 	}
 
 	req := &aws_ses.SendEmailInput{
-		Content: content,
+		Content:          content,
+		Destination:      dest,
+		FromEmailAddress: aws.String(from),
 	}
 
-	_, err := s.client.SendEmail(ctx, req)
+	_, err = s.client.SendEmail(ctx, req)
 
 	if err != nil {
 		return err

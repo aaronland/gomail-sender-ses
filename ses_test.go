@@ -3,7 +3,9 @@ package ses
 import (
 	"context"
 	"flag"
+	"fmt"
 	"testing"
+	"time"
 
 	"github.com/aaronland/gomail-sender"
 	"github.com/aaronland/gomail/v2"
@@ -38,10 +40,14 @@ func TestSESSender(t *testing.T) {
 		t.Skip()
 	}
 
+	now := time.Now()
+
+	subject := fmt.Sprintf("This is a test (%v)", now)
+
 	msg := gomail.NewMessage()
 	msg.SetHeader("From", *from)
 	msg.SetHeader("To", *to)
-	msg.SetHeader("This is a test")
+	msg.SetHeader("Subject", subject)
 	msg.SetBody("text/plain", "This is a test")
 
 	err = gomail.Send(s, msg)
