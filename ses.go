@@ -20,15 +20,15 @@ import (
 	"bufio"
 	"bytes"
 	"context"
-	"fmt"
+	_ "fmt"
 	"io"
-	_ "log"
 	"net/url"
 
 	"github.com/aaronland/go-aws-auth"
 	"github.com/aaronland/gomail-sender"
 	"github.com/aaronland/gomail/v2"
-	aws_ses "github.com/aws/aws-sdk-go-v2/service/sesv2"	
+	aws_ses "github.com/aws/aws-sdk-go-v2/service/sesv2"
+	aws_ses_types "github.com/aws/aws-sdk-go-v2/service/sesv2/types"
 )
 
 type SESSender struct {
@@ -56,7 +56,7 @@ func NewSESSender(ctx context.Context, uri string) (gomail.Sender, error) {
 	q := u.Query()
 
 	config_uri := q.Get("config-uri")
-	
+
 	cfg, err := auth.NewConfig(ctx, config_uri)
 
 	if err != nil {
@@ -87,7 +87,7 @@ func (s *SESSender) Send(from string, to []string, msg io.WriterTo) error {
 
 	wr.Flush()
 
-	raw_msg := &aws_ses.RawMessage{
+	raw_msg := &aws_ses_types.RawMessage{
 		Data: buf.Bytes(),
 	}
 
@@ -108,7 +108,7 @@ func (s *SESSender) Send(from string, to []string, msg io.WriterTo) error {
 	return nil
 }
 
-func (s *SESSender) sendMessage(ctx context.Context, sender string, recipient string, msg *aws_ses.RawMessage) error {
+func (s *SESSender) sendMessage(ctx context.Context, sender string, recipient string, msg *aws_ses_types.RawMessage) error {
 
 	// throttle send here... (see quota stuff above)
 
@@ -119,11 +119,20 @@ func (s *SESSender) sendMessage(ctx context.Context, sender string, recipient st
 		// pass
 	}
 
-	req := &aws_ses.SendRawEmailInput{
-		RawMessage: msg,
+	// https://pkg.go.dev/github.com/aws/aws-sdk-go-v2/service/sesv2#Client.SendEmail
+	// https://pkg.go.dev/github.com/aws/aws-sdk-go-v2/service/sesv2#SendEmailInput
+	// https://pkg.go.dev/github.com/aws/aws-sdk-go-v2/service/sesv2@v1.38.3/types#EmailContent
+	// https://pkg.go.dev/github.com/aws/aws-sdk-go-v2/service/sesv2@v1.38.3/types#RawMessage
+
+	content := &aws_ses_types.EmailContent{
+		Raw: msg,
 	}
 
-	_, err := s.service.SendRawEmailWithContext(ctx, req)
+	req := &aws_ses.SendEmailInput{
+		Content: content,
+	}
+
+	_, err := s.client.SendEmail(ctx, req)
 
 	if err != nil {
 		return err
