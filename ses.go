@@ -1,5 +1,7 @@
 package ses
 
+// https://pkg.go.dev/github.com/aws/aws-sdk-go-v2/service/sesv2
+
 // https://docs.aws.amazon.com/sdk-for-go/v1/developer-guide/ses-example-send-email.html
 // https://docs.aws.amazon.com/ses/latest/DeveloperGuide/verify-email-addresses-procedure.html
 
@@ -19,18 +21,19 @@ import (
 	"bytes"
 	"context"
 	"fmt"
-	"github.com/aaronland/go-aws-session"
-	"github.com/aaronland/gomail-sender"
-	"github.com/aaronland/gomail/v2"
-	aws_ses "github.com/aws/aws-sdk-go/service/ses"
 	"io"
 	_ "log"
 	"net/url"
+
+	"github.com/aaronland/go-aws-auth"
+	"github.com/aaronland/gomail-sender"
+	"github.com/aaronland/gomail/v2"
+	aws_ses "github.com/aws/aws-sdk-go-v2/service/sesv2"	
 )
 
 type SESSender struct {
 	gomail.Sender
-	service *aws_ses.SES
+	client *aws_ses.Client
 }
 
 func init() {
@@ -52,21 +55,18 @@ func NewSESSender(ctx context.Context, uri string) (gomail.Sender, error) {
 
 	q := u.Query()
 
-	credentials := q.Get("credentials")
-	region := q.Get("region")
-
-	dsn := fmt.Sprintf("credentials=%s region=%s", credentials, region)
-
-	sess, err := session.NewSessionWithDSN(dsn)
+	config_uri := q.Get("config-uri")
+	
+	cfg, err := auth.NewConfig(ctx, config_uri)
 
 	if err != nil {
 		return nil, err
 	}
 
-	svc := aws_ses.New(sess)
+	cl := aws_ses.NewFromConfig(cfg)
 
 	s := SESSender{
-		service: svc,
+		client: cl,
 	}
 
 	// https://docs.aws.amazon.com/sdk-for-go/api/service/ses/#GetSendQuotaOutput
