@@ -1,4 +1,4 @@
-module github.com/aaronland/gomail-ses
+module github.com/aaronland/gomail-ses/v2
 
 go 1.23
 
