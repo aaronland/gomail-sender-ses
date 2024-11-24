@@ -5,7 +5,7 @@ import (
 	"flag"
 	"log"
 
-	_ "github.com/aaronland/gomail-sender-ses"
+	_ "github.com/aaronland/gomail-sender-ses/v2"
 
 	"github.com/aaronland/gomail-sender"
 	"github.com/aaronland/gomail/v2"
