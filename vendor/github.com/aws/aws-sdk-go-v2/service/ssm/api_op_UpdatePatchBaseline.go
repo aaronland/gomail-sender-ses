@@ -45,9 +45,9 @@ type UpdatePatchBaselineInput struct {
 	// A list of explicitly approved patches for the baseline.
 	//
 	// For information about accepted formats for lists of approved patches and
-	// rejected patches, see [About package name formats for approved and rejected patch lists]in the Amazon Web Services Systems Manager User Guide.
+	// rejected patches, see [Package name formats for approved and rejected patch lists]in the Amazon Web Services Systems Manager User Guide.
 	//
-	// [About package name formats for approved and rejected patch lists]: https://docs.aws.amazon.com/systems-manager/latest/userguide/patch-manager-approved-rejected-package-name-formats.html
+	// [Package name formats for approved and rejected patch lists]: https://docs.aws.amazon.com/systems-manager/latest/userguide/patch-manager-approved-rejected-package-name-formats.html
 	ApprovedPatches []string
 
 	// Assigns a new compliance severity level to an existing patch baseline.
@@ -70,24 +70,31 @@ type UpdatePatchBaselineInput struct {
 	// A list of explicitly rejected patches for the baseline.
 	//
 	// For information about accepted formats for lists of approved patches and
-	// rejected patches, see [About package name formats for approved and rejected patch lists]in the Amazon Web Services Systems Manager User Guide.
+	// rejected patches, see [Package name formats for approved and rejected patch lists]in the Amazon Web Services Systems Manager User Guide.
 	//
-	// [About package name formats for approved and rejected patch lists]: https://docs.aws.amazon.com/systems-manager/latest/userguide/patch-manager-approved-rejected-package-name-formats.html
+	// [Package name formats for approved and rejected patch lists]: https://docs.aws.amazon.com/systems-manager/latest/userguide/patch-manager-approved-rejected-package-name-formats.html
 	RejectedPatches []string
 
 	// The action for Patch Manager to take on patches included in the RejectedPackages
 	// list.
 	//
-	//   - ALLOW_AS_DEPENDENCY : A package in the Rejected patches list is installed
-	//   only if it is a dependency of another package. It is considered compliant with
-	//   the patch baseline, and its status is reported as InstalledOther . This is the
-	//   default action if no option is specified.
+	// ALLOW_AS_DEPENDENCY  Linux and macOS: A package in the rejected patches list is
+	// installed only if it is a dependency of another package. It is considered
+	// compliant with the patch baseline, and its status is reported as INSTALLED_OTHER
+	// . This is the default action if no option is specified.
 	//
-	//   - BLOCK: Packages in the Rejected patches list, and packages that include
-	//   them as dependencies, aren't installed by Patch Manager under any circumstances.
-	//   If a package was installed before it was added to the Rejected patches list, or
-	//   is installed outside of Patch Manager afterward, it's considered noncompliant
-	//   with the patch baseline and its status is reported as InstalledRejected.
+	// Windows Server: Windows Server doesn't support the concept of package
+	// dependencies. If a package in the rejected patches list and already installed on
+	// the node, its status is reported as INSTALLED_OTHER . Any package not already
+	// installed on the node is skipped. This is the default action if no option is
+	// specified.
+	//
+	// BLOCK  All OSs: Packages in the rejected patches list, and packages that
+	// include them as dependencies, aren't installed by Patch Manager under any
+	// circumstances. If a package was installed before it was added to the rejected
+	// patches list, or is installed outside of Patch Manager afterward, it's
+	// considered noncompliant with the patch baseline and its status is reported as
+	// INSTALLED_REJECTED .
 	RejectedPatchesAction types.PatchAction
 
 	// If True, then all fields that are required by the CreatePatchBaseline operation are also required
@@ -202,6 +209,9 @@ func (c *Client) addOperationUpdatePatchBaselineMiddlewares(stack *middleware.St
 	if err = addRecordResponseTiming(stack); err != nil {
 		return err
 	}
+	if err = addSpanRetryLoop(stack, options); err != nil {
+		return err
+	}
 	if err = addClientUserAgent(stack, options); err != nil {
 		return err
 	}
@@ -239,6 +249,18 @@ func (c *Client) addOperationUpdatePatchBaselineMiddlewares(stack *middleware.St
 		return err
 	}
 	if err = addDisableHTTPSMiddleware(stack, options); err != nil {
+		return err
+	}
+	if err = addSpanInitializeStart(stack); err != nil {
+		return err
+	}
+	if err = addSpanInitializeEnd(stack); err != nil {
+		return err
+	}
+	if err = addSpanBuildRequestStart(stack); err != nil {
+		return err
+	}
+	if err = addSpanBuildRequestEnd(stack); err != nil {
 		return err
 	}
 	return nil

@@ -21,9 +21,9 @@ import (
 // all your managed nodes. If you specify a node ID that isn't valid or a node that
 // you don't own, you receive an error.
 //
-// The IamRole field returned for this API operation is the Identity and Access
-// Management (IAM) role assigned to on-premises managed nodes. This operation does
-// not return the IAM role for EC2 instances.
+// The IamRole field returned for this API operation is the role assigned to an
+// Amazon EC2 instance configured with a Systems Manager Quick Setup host
+// management configuration or the role assigned to an on-premises managed node.
 func (c *Client) DescribeInstanceInformation(ctx context.Context, params *DescribeInstanceInformationInput, optFns ...func(*Options)) (*DescribeInstanceInformationOutput, error) {
 	if params == nil {
 		params = &DescribeInstanceInformationInput{}
@@ -125,6 +125,9 @@ func (c *Client) addOperationDescribeInstanceInformationMiddlewares(stack *middl
 	if err = addRecordResponseTiming(stack); err != nil {
 		return err
 	}
+	if err = addSpanRetryLoop(stack, options); err != nil {
+		return err
+	}
 	if err = addClientUserAgent(stack, options); err != nil {
 		return err
 	}
@@ -162,6 +165,18 @@ func (c *Client) addOperationDescribeInstanceInformationMiddlewares(stack *middl
 		return err
 	}
 	if err = addDisableHTTPSMiddleware(stack, options); err != nil {
+		return err
+	}
+	if err = addSpanInitializeStart(stack); err != nil {
+		return err
+	}
+	if err = addSpanInitializeEnd(stack); err != nil {
+		return err
+	}
+	if err = addSpanBuildRequestStart(stack); err != nil {
+		return err
+	}
+	if err = addSpanBuildRequestEnd(stack); err != nil {
 		return err
 	}
 	return nil

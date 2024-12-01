@@ -23,6 +23,8 @@ import (
 //
 // AMAZON_LINUX_2 Valid properties: PRODUCT | CLASSIFICATION | SEVERITY
 //
+// AMAZON_LINUX_2023 Valid properties: PRODUCT | CLASSIFICATION | SEVERITY
+//
 // CENTOS Valid properties: PRODUCT | CLASSIFICATION | SEVERITY
 //
 // DEBIAN Valid properties: PRODUCT | PRIORITY
@@ -140,6 +142,9 @@ func (c *Client) addOperationDescribePatchPropertiesMiddlewares(stack *middlewar
 	if err = addRecordResponseTiming(stack); err != nil {
 		return err
 	}
+	if err = addSpanRetryLoop(stack, options); err != nil {
+		return err
+	}
 	if err = addClientUserAgent(stack, options); err != nil {
 		return err
 	}
@@ -177,6 +182,18 @@ func (c *Client) addOperationDescribePatchPropertiesMiddlewares(stack *middlewar
 		return err
 	}
 	if err = addDisableHTTPSMiddleware(stack, options); err != nil {
+		return err
+	}
+	if err = addSpanInitializeStart(stack); err != nil {
+		return err
+	}
+	if err = addSpanInitializeEnd(stack); err != nil {
+		return err
+	}
+	if err = addSpanBuildRequestStart(stack); err != nil {
+		return err
+	}
+	if err = addSpanBuildRequestEnd(stack); err != nil {
 		return err
 	}
 	return nil
