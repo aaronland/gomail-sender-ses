@@ -304,6 +304,8 @@ const (
 	DkimSigningAttributesOriginAwsSesMeCentral1   DkimSigningAttributesOrigin = "AWS_SES_ME_CENTRAL_1"
 	DkimSigningAttributesOriginAwsSesApSouth2     DkimSigningAttributesOrigin = "AWS_SES_AP_SOUTH_2"
 	DkimSigningAttributesOriginAwsSesEuCentral2   DkimSigningAttributesOrigin = "AWS_SES_EU_CENTRAL_2"
+	DkimSigningAttributesOriginAwsSesApSoutheast5 DkimSigningAttributesOrigin = "AWS_SES_AP_SOUTHEAST_5"
+	DkimSigningAttributesOriginAwsSesCaWest1      DkimSigningAttributesOrigin = "AWS_SES_CA_WEST_1"
 )
 
 // Values returns all known values for DkimSigningAttributesOrigin. Note that this
@@ -339,6 +341,8 @@ func (DkimSigningAttributesOrigin) Values() []DkimSigningAttributesOrigin {
 		"AWS_SES_ME_CENTRAL_1",
 		"AWS_SES_AP_SOUTH_2",
 		"AWS_SES_EU_CENTRAL_2",
+		"AWS_SES_AP_SOUTHEAST_5",
+		"AWS_SES_CA_WEST_1",
 	}
 }
 
@@ -383,6 +387,28 @@ func (DkimStatus) Values() []DkimStatus {
 		"FAILED",
 		"TEMPORARY_FAILURE",
 		"NOT_STARTED",
+	}
+}
+
+type EmailAddressInsightsConfidenceVerdict string
+
+// Enum values for EmailAddressInsightsConfidenceVerdict
+const (
+	EmailAddressInsightsConfidenceVerdictLow    EmailAddressInsightsConfidenceVerdict = "LOW"
+	EmailAddressInsightsConfidenceVerdictMedium EmailAddressInsightsConfidenceVerdict = "MEDIUM"
+	EmailAddressInsightsConfidenceVerdictHigh   EmailAddressInsightsConfidenceVerdict = "HIGH"
+)
+
+// Values returns all known values for EmailAddressInsightsConfidenceVerdict. Note
+// that this can be expanded in the future, and so it is only as up to date as the
+// client.
+//
+// The ordering of this slice is not guaranteed to be stable across updates.
+func (EmailAddressInsightsConfidenceVerdict) Values() []EmailAddressInsightsConfidenceVerdict {
+	return []EmailAddressInsightsConfidenceVerdict{
+		"LOW",
+		"MEDIUM",
+		"HIGH",
 	}
 }
 
@@ -991,6 +1017,28 @@ func (SubscriptionStatus) Values() []SubscriptionStatus {
 	return []SubscriptionStatus{
 		"OPT_IN",
 		"OPT_OUT",
+	}
+}
+
+type SuppressionConfidenceVerdictThreshold string
+
+// Enum values for SuppressionConfidenceVerdictThreshold
+const (
+	SuppressionConfidenceVerdictThresholdMedium  SuppressionConfidenceVerdictThreshold = "MEDIUM"
+	SuppressionConfidenceVerdictThresholdHigh    SuppressionConfidenceVerdictThreshold = "HIGH"
+	SuppressionConfidenceVerdictThresholdManaged SuppressionConfidenceVerdictThreshold = "MANAGED"
+)
+
+// Values returns all known values for SuppressionConfidenceVerdictThreshold. Note
+// that this can be expanded in the future, and so it is only as up to date as the
+// client.
+//
+// The ordering of this slice is not guaranteed to be stable across updates.
+func (SuppressionConfidenceVerdictThreshold) Values() []SuppressionConfidenceVerdictThreshold {
+	return []SuppressionConfidenceVerdictThreshold{
+		"MEDIUM",
+		"HIGH",
+		"MANAGED",
 	}
 }
 

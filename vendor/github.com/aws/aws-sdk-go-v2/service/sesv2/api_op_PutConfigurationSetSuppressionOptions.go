@@ -48,6 +48,10 @@ type PutConfigurationSetSuppressionOptionsInput struct {
 	//   account when a message sent to that address results in a hard bounce.
 	SuppressedReasons []types.SuppressionListReason
 
+	// An object that contains information about the email address suppression
+	// preferences for the configuration set in the current Amazon Web Services Region.
+	ValidationOptions *types.SuppressionValidationOptions
+
 	noSmithyDocumentSerde
 }
 
@@ -154,40 +158,7 @@ func (c *Client) addOperationPutConfigurationSetSuppressionOptionsMiddlewares(st
 	if err = addInterceptAttempt(stack, options); err != nil {
 		return err
 	}
-	if err = addInterceptExecution(stack, options); err != nil {
-		return err
-	}
-	if err = addInterceptBeforeSerialization(stack, options); err != nil {
-		return err
-	}
-	if err = addInterceptAfterSerialization(stack, options); err != nil {
-		return err
-	}
-	if err = addInterceptBeforeSigning(stack, options); err != nil {
-		return err
-	}
-	if err = addInterceptAfterSigning(stack, options); err != nil {
-		return err
-	}
-	if err = addInterceptTransmit(stack, options); err != nil {
-		return err
-	}
-	if err = addInterceptBeforeDeserialization(stack, options); err != nil {
-		return err
-	}
-	if err = addInterceptAfterDeserialization(stack, options); err != nil {
-		return err
-	}
-	if err = addSpanInitializeStart(stack); err != nil {
-		return err
-	}
-	if err = addSpanInitializeEnd(stack); err != nil {
-		return err
-	}
-	if err = addSpanBuildRequestStart(stack); err != nil {
-		return err
-	}
-	if err = addSpanBuildRequestEnd(stack); err != nil {
+	if err = addInterceptors(stack, options); err != nil {
 		return err
 	}
 	return nil
